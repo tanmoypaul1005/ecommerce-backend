@@ -10,7 +10,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(name: string, email: string, password: string) {
+  async register(
+    name: string,
+    email: string,
+    password: string,
+    userType: 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN' | 'DELIVERYMAN' = 'CUSTOMER',
+  ) {
     const existing = await this.prisma.user.findUnique({ where: { email } });
     if (existing) {
       throw new UnauthorizedException('Email already registered');
@@ -18,7 +23,7 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await this.prisma.user.create({
-      data: { name, email, password: passwordHash },
+      data: { name, email, password: passwordHash, userType },
       select: { id: true, name: true, email: true, createdAt: true },
     });
 
