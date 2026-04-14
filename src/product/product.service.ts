@@ -12,4 +12,9 @@ export class ProductService {
         })
         return product;
     }
+
+    async getAllProducts(){
+        const product =await this.prisma.product.findMany();
+        return product;
+    }
 }
