@@ -17,4 +17,11 @@ export class ProductService {
         const product =await this.prisma.product.findMany();
         return product;
     }
+
+    async getProductById(id: string){
+        const singelproduct = await this.prisma.product.findUnique({
+            where: { id }
+        });
+        return singelproduct;
+    }
 }
