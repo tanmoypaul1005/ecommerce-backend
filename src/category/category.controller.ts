@@ -1,4 +1,14 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CategoryService } from './category.service';
+import { CreateCategoryDto } from './dto/category.dto';
 
 @Controller('category')
-export class CategoryController {}
+export class CategoryController {
+    constructor(private readonly categoryService: CategoryService) { }
+
+    @Post('')
+    createCategory(@Body() dto: CreateCategoryDto) {
+        return this.categoryService.createCategory(dto);
+    }
+
+}
