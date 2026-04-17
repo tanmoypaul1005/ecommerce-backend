@@ -17,6 +17,12 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+modal category {
+  id       string @id @default(uuid())
+  name     string
+  banner   string
+}
+
 enum UserType {
   CUSTOMER
   ADMIN
