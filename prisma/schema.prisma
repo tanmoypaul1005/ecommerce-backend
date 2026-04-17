@@ -17,10 +17,10 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-modal category {
-  id       string @id @default(uuid())
-  name     string
-  banner   string
+model Category {
+  id     String  @id @default(uuid())
+  name   String
+  banner String?
 }
 
 enum UserType {
@@ -31,7 +31,7 @@ enum UserType {
 }
 
 model Product {
-id          String   @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   slug        String   @unique
   description String?
