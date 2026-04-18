@@ -21,6 +21,7 @@ model Category {
   id     String  @id @default(uuid())
   name   String
   banner String?
+  products Product[]
 }
 
 enum UserType {
@@ -35,6 +36,9 @@ model Product {
   title       String
   slug        String   @unique
   description String?
+
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
 
   price       Float
   discount    Float?   @default(0)
