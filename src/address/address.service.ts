@@ -12,4 +12,9 @@ export class AddressService {
         });
         return address;
     }
+
+    async getAddressList(){
+        const addressList = await this.prisma.address.findMany();
+        return addressList;
+    }
 }
