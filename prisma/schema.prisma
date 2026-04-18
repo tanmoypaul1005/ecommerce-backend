@@ -54,3 +54,28 @@ model Product {
   updatedAt   DateTime @updatedAt
 
 }
+
+
+model Address {
+  id           String   @id @default(uuid())
+
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+
+  fullName     String
+  phone        String
+
+  area     String
+  addressLine1 String
+  addressLine2 String?
+
+  type         AddressType @default(HOME)
+  isDefault    Boolean @default(false)
+
+  createdAt    DateTime @default(now())
+}
+
+enum AddressType {
+  HOME
+  OFFICE
+}
