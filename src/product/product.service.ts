@@ -20,7 +20,8 @@ export class ProductService {
 
     async getProductById(id: string){
         const singelproduct = await this.prisma.product.findUnique({
-            where: { id }
+            where: { id },
+            include: { category: true }
         });
         return singelproduct;
     }
