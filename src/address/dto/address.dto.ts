@@ -1,5 +1,9 @@
-import { AddressType } from '@prisma/client';
 import { IsBoolean, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
+
+export enum AddressType {
+	HOME = 'HOME',
+	OFFICE = 'OFFICE',
+}
 
 export class CreateAddressDto {
 	@IsUUID()
