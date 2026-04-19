@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PaymentMethod } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -19,15 +20,23 @@ export class OrderService {
         return orders;
     }
 
-    async createOrder(userId: string, paymentMethod,items: { productId: string; quantity: number }[], addressId: string) {
+    async createOrder(
+        userId: string,
+        paymentMethod: PaymentMethod | undefined,
+        items: { productId: string; quantity: number }[],
+        addressId?: string,
+    ) {
+        const isPaidMethod = paymentMethod === 'CARD' || paymentMethod === 'BKASH';
         const order = await this.prisma.order.create({
             data: {
                 userId,
                 addressId,
-                items,
+                items: {
+                    create: items,
+                },
                 paymentMethod,
-                status: (paymentMethod === 'CARD'  || paymentMethod === 'BKASH') ? 'PROCESSING' : 'PENDING',
-                paymentStatus: (paymentMethod === 'CARD'  || paymentMethod === 'BKASH') ? 'PAID' : 'UNPAID',
+                status: isPaidMethod ? 'PROCESSING' : 'PENDING',
+                paymentStatus: isPaidMethod ? 'PAID' : 'UNPAID',
             },
             include: {
                 items: true,    
