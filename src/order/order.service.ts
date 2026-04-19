@@ -58,7 +58,7 @@ export class OrderService {
         const itemsWithPrice = items.map((item) => {
             const product = priceById.get(item.productId);
             const discount = product?.discount ?? 0;
-            const unitPrice = (product?.price ?? 0) - discount;
+            const unitPrice = Math.abs((product?.price ?? 0) - discount);
             return {
                 ...item,
                 unitPrice,
