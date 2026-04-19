@@ -113,6 +113,7 @@ model OrderItem {
 
 enum OrderStatus {
   PENDING
+  PROCESSING
   CONFIRMED
   SHIPPED
   DELIVERED
@@ -120,7 +121,7 @@ enum OrderStatus {
 }
 
 enum PaymentStatus {
-  UNPAID
+  PENDING
   PAID
   REFUNDED
 }
@@ -129,5 +130,4 @@ enum PaymentMethod {
   COD
   CARD
   BKASH
-  NAGAD
 }
