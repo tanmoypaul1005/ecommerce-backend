@@ -5,10 +5,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class OrderService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async getAllOrders(params: { userId?: string }) {
+    async getAllOrders(userId: string) {
         const orders = await this.prisma.order.findMany({
             where: {
-                userId: params.userId,
+                userId,
             },
             include: {
                 items: true,
