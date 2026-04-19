@@ -101,6 +101,8 @@ model Order {
 
   items         OrderItem[]
 
+  totalPrice   Float        @default(0)
+
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -116,6 +118,8 @@ model OrderItem {
   product    Product  @relation(fields: [productId], references: [id])
 
   quantity   Int
+
+  unitPrice  Float
 }
 
 enum OrderStatus {
