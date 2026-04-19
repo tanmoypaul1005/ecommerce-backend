@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -12,14 +12,25 @@ export class AddressController {
     @Post('')
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('CUSTOMER')
-    createAddress(@Body() dto: CreateAddressDto) {
-        return this.addressService.createAddress(dto);
+    createAddress(
+        @Req() req: { user?: { sub?: string } },
+        @Body() dto: CreateAddressDto,
+    ) {
+        const userId = req.user?.sub;
+        if (!userId) {
+            throw new UnauthorizedException('Missing user id');
+        }
+        return this.addressService.createAddress(userId, dto);
     }
 
     @Get('')
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('CUSTOMER')
-    getAddressList() {
-        return this.addressService.getAddressList();
+    getAddressList(@Req() req: { user?: { sub?: string } }) {
+        const userId = req.user?.sub;
+        if (!userId) {
+            throw new UnauthorizedException('Missing user id');
+        }
+        return this.addressService.getAddressList(userId);
     }
 }

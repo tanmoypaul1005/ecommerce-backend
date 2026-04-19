@@ -6,15 +6,22 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class AddressService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async createAddress(addressData: CreateAddressDto) {
+    async createAddress(userId: string, addressData: CreateAddressDto) {
         const address = await this.prisma.address.create({
-            data: addressData
+            data: {
+                ...addressData,
+                userId,
+            },
         });
         return address;
     }
 
-    async getAddressList(){
-        const addressList = await this.prisma.address.findMany();
+    async getAddressList(userId: string) {
+        const addressList = await this.prisma.address.findMany({
+            where: {
+                userId,
+            },
+        });
         return addressList;
     }
 }

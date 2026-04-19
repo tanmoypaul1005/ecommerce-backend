@@ -6,9 +6,6 @@ export enum AddressType {
 }
 
 export class CreateAddressDto {
-	@IsUUID()
-	userId: string;
-
 	@IsString()
 	fullName: string;
 
