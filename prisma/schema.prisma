@@ -121,7 +121,7 @@ enum OrderStatus {
 }
 
 enum PaymentStatus {
-  PENDING
+  UNPAID
   PAID
   REFUNDED
 }

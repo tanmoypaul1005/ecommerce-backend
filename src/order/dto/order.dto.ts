@@ -27,7 +27,6 @@ export enum PaymentMethod {
   COD = 'COD',
   CARD = 'CARD',
   BKASH = 'BKASH',
-  NAGAD = 'NAGAD',
 }
 
 export class OrderItemDto {

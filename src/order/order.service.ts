@@ -27,7 +27,7 @@ export class OrderService {
                 items,
                 paymentMethod,
                 status: (paymentMethod === 'CARD'  || paymentMethod === 'BKASH') ? 'PROCESSING' : 'PENDING',
-                paymentStatus: (paymentMethod === 'CARD'  || paymentMethod === 'BKASH') ? 'PAID' : 'PENDING',
+                paymentStatus: (paymentMethod === 'CARD'  || paymentMethod === 'BKASH') ? 'PAID' : 'UNPAID',
             },
             include: {
                 items: true,    
