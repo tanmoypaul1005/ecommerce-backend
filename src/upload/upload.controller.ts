@@ -13,6 +13,12 @@ import type { Express, Request } from 'express';
 import { UploadService } from './upload.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+type AuthenticatedRequest = Request & {
+  user?: {
+    sub?: string;
+  };
+};
+
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
@@ -27,7 +33,7 @@ export class UploadController {
   )
   uploadSingle(
     @UploadedFile() file: Express.Multer.File,
-    @Req() req: Request,
+    @Req() req: AuthenticatedRequest,
   ) {
     return this.uploadService.uploadImage(file, req.user?.sub as string);
   }
@@ -42,7 +48,7 @@ export class UploadController {
   )
   uploadMultiple(
     @UploadedFiles() files: Express.Multer.File[],
-    @Req() req: Request,
+    @Req() req: AuthenticatedRequest,
   ) {
     return this.uploadService.uploadImages(files, req.user?.sub as string);
   }
