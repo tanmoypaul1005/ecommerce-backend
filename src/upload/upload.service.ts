@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary';
-import type { Express } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
