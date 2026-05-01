@@ -6,10 +6,14 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary';
 import type { Express } from 'express';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UploadService {
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly prisma: PrismaService,
+  ) {
     const cloudName = this.configService.get<string>('CLOUDINARY_CLOUD_NAME');
     const apiKey = this.configService.get<string>('CLOUDINARY_API_KEY');
     const apiSecret = this.configService.get<string>('CLOUDINARY_API_SECRET');
@@ -26,28 +30,61 @@ export class UploadService {
     });
   }
 
-  async uploadImage(file: Express.Multer.File) {
+  async uploadImage(file: Express.Multer.File, userId?: string) {
     if (!file) {
       throw new BadRequestException('No image provided');
     }
+    if (!userId) {
+      throw new BadRequestException('User is required');
+    }
 
     const result = await this.uploadBuffer(file.buffer, file.originalname);
+    const media = await this.prisma.media.create({
+      data: {
+        url: result.secure_url,
+        publicId: result.public_id,
+        width: result.width,
+        height: result.height,
+        format: result.format,
+        userId,
+      },
+    });
+
     return {
       url: result.secure_url,
       publicId: result.public_id,
       width: result.width,
       height: result.height,
       format: result.format,
+      mediaId: media.id,
     };
   }
 
-  async uploadImages(files: Express.Multer.File[]) {
+  async uploadImages(files: Express.Multer.File[], userId?: string) {
     if (!files || files.length === 0) {
       throw new BadRequestException('No images provided');
+    }
+    if (!userId) {
+      throw new BadRequestException('User is required');
     }
 
     const uploads = await Promise.all(
       files.map((file) => this.uploadBuffer(file.buffer, file.originalname)),
+    );
+
+    const mediaRecords = await Promise.all(
+      uploads.map((result) =>
+        this.prisma.media.create({
+          data: {
+            url: result.secure_url,
+            publicId: result.public_id,
+            width: result.width,
+            height: result.height,
+            format: result.format,
+            userId,
+          },
+        }),
+      ),
     );
 
     return {
@@ -59,6 +96,7 @@ export class UploadService {
         height: result.height,
         format: result.format,
       })),
+      mediaIds: mediaRecords.map((record) => record.id),
     };
   }
 
