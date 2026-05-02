@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { ReviewService } from './review.service';
 
 @Controller('review')
@@ -9,5 +9,9 @@ export class ReviewController {
     async getAllReviews() {
         return await this.reviewService.getAllReviews();
     }
-}
- ;
+
+    @Post()
+    async createReview() {
+        return await this.reviewService.createReview();
+    }
+};
