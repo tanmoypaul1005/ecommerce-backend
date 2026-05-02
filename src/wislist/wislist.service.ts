@@ -1,11 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateWishlistDto } from './dto/wishlist.dto';
 
 @Injectable()
 export class WislistService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async getAllWishlists() {
-        return this.prisma.wishlist.findMany();
+    async createWishlist(userId: string, dto: CreateWishlistDto) {
+        const existingWishlist = await this.prisma.wishlist.findFirst({
+            where: {
+                userId,
+                productId: dto.productId,
+            }
+        });
+        if (existingWishlist) {
+          return this.prisma.wishlist.delete({
+                where: {
+                    id: existingWishlist.id
+                }
+            });
+        }
+        return this.prisma.wishlist.create({
+            data: {
+                userId,
+                productId: dto.productId,
+            }
+        });
+    }
+
+    async getAllWishlists(userId: string) {
+        return this.prisma.wishlist.findMany({
+            where: { userId },
+        });
     }
 }
