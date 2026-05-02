@@ -7,14 +7,22 @@ export class ReviewService {
     constructor(private readonly prisma: PrismaService) { }
 
     async createReview(userId: string, dto: CreateReviewDto) {
-        await this.prisma.review.create({
+        const created = await this.prisma.review.create({
             data: {
                 rating: dto.rating,
                 comment: dto.comment,
                 productId: dto.productId,
                 userId: userId,
-            }
+            },
+            include: {
+                user: true,
+                product: true,
+            },
         });
+        return {
+            message: 'Review created',
+            data: created,
+        };
     }
 
     async getAllReviews() {
