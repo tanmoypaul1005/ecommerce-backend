@@ -17,6 +17,7 @@ model User {
   orders    Order[]
   media     Media[]
   reviews   Review[]
+  wishlists Wishlist[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -59,6 +60,7 @@ model Product {
 
   orderItems  OrderItem[]
   reviews     Review[]
+  wishlists   Wishlist[]
 
 }
 
@@ -76,6 +78,20 @@ model Review {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
 }
 
 model Media {
