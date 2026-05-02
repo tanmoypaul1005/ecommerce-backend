@@ -10,3 +10,4 @@ export class ReviewController {
         return await this.reviewService.getAllReviews();
     }
 }
+ ;
