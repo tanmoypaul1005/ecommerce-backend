@@ -18,7 +18,7 @@ export class WislistController {
         return this.wislistService.getAllWishlists(userId);
     }
 
-    @Post('')
+    @Post()
     @UseGuards(JwtAuthGuard)
     async createWishlist(
         @Req() req: { user?: { sub?: string } },
