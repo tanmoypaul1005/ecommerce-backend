@@ -14,18 +14,25 @@ export class WislistService {
             }
         });
         if (existingWishlist) {
-          return this.prisma.wishlist.delete({
+          await this.prisma.wishlist.delete({
                 where: {
                     id: existingWishlist.id
                 }
             });
+          return {
+              message: 'Wishlist item removed',
+          };
         }
-        return this.prisma.wishlist.create({
+        const created = await this.prisma.wishlist.create({
             data: {
                 userId,
                 productId: dto.productId,
             }
         });
+        return {
+            message: 'Wishlist item added',
+            data: created,
+        };
     }
 
     async getAllWishlists(userId: string) {
