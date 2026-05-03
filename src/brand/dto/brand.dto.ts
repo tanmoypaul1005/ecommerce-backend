@@ -1,13 +1,13 @@
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from 'class-validator';
 
- export class BrandDto {
+export class BrandDto {
+   @IsString()
+   name: string;
 
-    name: string;
-    @IsString()
+   @IsString()
+   imageUrl: string;
 
-    imageUrl: string;
-    @IsString()
-
-    description?: string;
-
- }
+   @IsOptional()
+   @IsString()
+   description?: string;
+}
