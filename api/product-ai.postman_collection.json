@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "ecommerce-backend - Product AI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Generate Product Text",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Men's Casual Denim Jacketi\",\n  \"slug\": \"mens-casual-denim-jacketeeeow\",\n  \"description\": \"Stylish blue denim jacket perfect for casual wear\",\n  \"additionalInfo\": [\n    {\"key\": \"description\", \"value\": \"This service is responsible for handling AI-related operations for products. It interacts with the PrismaService to perform database operations related to products.\"},\n    {\"key\": \"description\", \"value\": \"This service is responsible for handling AI-related operations for products. It interacts with the PrismaService to perform database operations related to products.\"}\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/product-ai/generate",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "product-ai",
+            "generate"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
