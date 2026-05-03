@@ -12,9 +12,10 @@ import { UploadModule } from './upload/upload.module';
 import { ReviewModule } from './review/review.module';
 import { WislistModule } from './wislist/wislist.module';
 import { ProductAiModule } from './product-ai/product-ai.module';
+import { BrandModule } from './brand/brand.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, AuthModule, ProductModule,ProductModule, CategoryModule, AddressModule, OrderModule, UploadModule, ReviewModule, WislistModule, ProductAiModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, AuthModule, ProductModule,ProductModule, CategoryModule, AddressModule, OrderModule, UploadModule, ReviewModule, WislistModule, ProductAiModule, BrandModule],
   controllers: [AppController],
   providers: [AppService],
 })
