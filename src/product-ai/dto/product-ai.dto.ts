@@ -18,11 +18,17 @@ export class ProductAiGenerateDto {
   @IsString()
   title: string;
 
+  @IsOptional()
   @IsString()
-  slug: string;
+  slug?: string;
 
+  @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
+
+  @IsOptional()
+  @IsString()
+  language?: string;
 
   @IsOptional()
   @IsArray()

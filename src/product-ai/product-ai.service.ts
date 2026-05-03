@@ -27,10 +27,13 @@ export class ProductAiService {
         description: string;
         additionalInformation: Array<{ key: string; value: string }>;
     }> {
+        const generatedSlug = this.toSlug(payload.title);
+        const outputLanguage = payload.language?.trim() || 'English';
         const context = {
             title: payload.title,
-            slug: payload.slug,
-            description: payload.description,
+            slug: payload.slug ?? generatedSlug,
+            description: payload.description ?? '',
+            language: outputLanguage,
             additionalInfo: payload.additionalInfo ?? [],
         };
 
@@ -38,7 +41,8 @@ export class ProductAiService {
             'Generate a unique, high-quality product description based on the context. ' +
             'Return ONLY valid JSON with this exact shape (no markdown, no code fences): ' +
             '{"title":"...","slug":"...","description":"...","additionalInformation":[{"key":"...","value":"..."}]}\n' +
-            'Use the input title/slug as-is, and expand description and additionalInformation.\n\nContext:\n' +
+            'Use the input title/slug as-is, and expand description and additionalInformation. ' +
+            'Write all text in the requested language from the context; default is English.\n\nContext:\n' +
             JSON.stringify(context, null, 2);
 
         const result = await this.model.generateContent(prompt);
@@ -52,5 +56,12 @@ export class ProductAiService {
         };
 
         return parsed;
+    }
+
+    private toSlug(value: string): string {
+        return value
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
     }
 }
