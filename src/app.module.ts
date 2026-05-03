@@ -11,9 +11,10 @@ import { OrderModule } from './order/order.module';
 import { UploadModule } from './upload/upload.module';
 import { ReviewModule } from './review/review.module';
 import { WislistModule } from './wislist/wislist.module';
+import { ProductAiModule } from './product-ai/product-ai.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, AuthModule, ProductModule,ProductModule, CategoryModule, AddressModule, OrderModule, UploadModule, ReviewModule, WislistModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, AuthModule, ProductModule,ProductModule, CategoryModule, AddressModule, OrderModule, UploadModule, ReviewModule, WislistModule, ProductAiModule],
   controllers: [AppController],
   providers: [AppService],
 })
