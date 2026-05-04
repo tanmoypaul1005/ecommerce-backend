@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { BrandDto } from './dto/brand.dto';
 
@@ -17,17 +17,17 @@ export class BrandController {
     }
 
     @Get(':id')
-    async getBrandById(@Body('id') id: string) {
+    async getBrandById(@Param('id') id: string) {
         return await this.brandService.getBrandById(id);    
     }
 
     @Delete(':id')
-    async deleteBrand(@Body('id') id: string) {
+    async deleteBrand(@Param('id') id: string) {
         return await this.brandService.deleteBrand(id);
     }
 
-    @Patch(':id')
-    async updateBrand(@Body('id') id: string, @Body() dto: BrandDto) {
+    @Put(':id')
+    async updateBrand(@Param('id') id: string, @Body() dto: BrandDto) {
         return await this.brandService.updateBrand(id, dto);
     }
 
