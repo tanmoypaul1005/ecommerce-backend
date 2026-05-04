@@ -20,4 +20,31 @@ export class BrandService {
             data: created,
         };
     }
+
+    async getBrandById(id: string) {
+        const brand = await this.prisma.brand.findUnique({
+            where: { id },
+        });
+        return brand;
+    }
+
+    async deleteBrand(id: string) {
+        await this.prisma.brand.delete({
+            where: { id },
+        });
+        return {
+            message: 'Brand deleted',
+        };
+    }
+
+    async updateBrand(id: string, dto: BrandDto) {
+        const updated = await this.prisma.brand.update({
+            where: { id },
+            data: dto,
+        });
+        return {
+            message: 'Brand updated',
+            data: updated,
+        };
+    }
 }
